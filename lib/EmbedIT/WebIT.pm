@@ -10,7 +10,7 @@ use IPC::Open3;
 use Taint::Runtime qw(disable);
 no strict "refs";
 
-our $VERSION = '1.6.1';
+our $VERSION = '1.6.2';
 our $CRLF = "\015\012";
 
 use vars qw(@childs $data);

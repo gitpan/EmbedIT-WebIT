@@ -12,6 +12,13 @@ WriteMakefile(
       : ()),
     PL_FILES            => {},
     PREREQ_PM => {
+        'HTTP::Date' => undef,
+	'IO::Select' => undef,
+	'IO::Socket' => undef,
+	'LWP::MediaTypes' => undef,
+	'IPC::Open3' => undef,
+        'Taint::Runtime' => '0.03',
+	'MIME::Base64' => undef,
         'Test::More' => 0,
     },
     dist                => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
