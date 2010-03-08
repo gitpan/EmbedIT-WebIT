@@ -10,7 +10,7 @@ use IPC::Open3;
 use Taint::Runtime qw(disable);
 no strict "refs";
 
-our $VERSION = '1.6.2';
+our $VERSION = '1.6.3';
 our $CRLF = "\015\012";
 
 use vars qw(@childs $data);
@@ -1881,9 +1881,8 @@ sub __clean_env {
 #
 
 sub __fix_env {
-  my ($self) = @_;
+  my ($self, $r) = @_;
 
-  my $r = shift;
   for my $k (keys %{ $r->{HEADERS} }) {
     if ($k !~ /CONTENT-LENGTH|COOKIE/) {
       my $l = $k;
