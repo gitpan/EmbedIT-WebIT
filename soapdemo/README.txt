@@ -11,3 +11,14 @@ to get the wsdl file of the web service and then with SOAPUI or some other tool 
 wsdl.
 
 Enjoy.
+
+PS: If you wish to change the enpoint for the WSDL then you need to edit the following:
+
+  The TestBind.wsdl to change the 127.0.0.1:8089 to the address and port you want and
+  The test.pl to set the address of port of the wed server to match the ones specified in the WSDL by changing the 
+
+    SERVER_IP       => '127.0.0.1',
+    SERVER_PORT     => 8089,
+
+  configuration entries of the server.
+

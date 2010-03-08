@@ -53,7 +53,7 @@
 
   <wsdl:service name="Test">
     <wsdl:port name="Test" binding="tns:TestBind">
-      <soap:address location="http://192.168.201.225:8089/WS/Test" />
+      <soap:address location="http://127.0.0.1:8089/WS/Test" />
     </wsdl:port>
 
   </wsdl:service>

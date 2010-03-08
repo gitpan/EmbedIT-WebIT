@@ -50,7 +50,7 @@ sub no_page_html {
 # ----------------------------------------------------------------------------------------------------------
 
 my $server = new EmbedIT::WebIT(  SERVER_NAME     => 'localhost',
-                                  SERVER_IP       => '192.168.201.225',
+                                  SERVER_IP       => '127.0.0.1',
                                   SERVER_PORT     => 8089,
                                   SOFTWARE        => 'MyApp',
                                   QUEUE_SIZE      => 100,

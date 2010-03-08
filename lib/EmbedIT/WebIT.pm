@@ -75,9 +75,9 @@ sub new {
 
   my $self = {
                SERVER     => $Server,
-	       START_TIME => $start_time,
-	       HAS_CGI_PM => $has_cgi_pm,
-	       CONF       => \%conf,
+               START_TIME => $start_time,
+               HAS_CGI_PM => $has_cgi_pm,
+               CONF       => \%conf,
              };
 
   bless $self;
@@ -228,8 +228,8 @@ sub __report {
   my $logging = $conf->{"LOG_METHOD"};
 
   &$logging("Staring " . $conf->{"SOFTWARE"} . " web server on " . 
-			 $conf->{"SERVER_IP"} . ":" . $conf->{"SERVER_PORT"} . 
-			 " with " . $conf->{"QUEUE_SIZE"} . " connection queue limit");
+       $conf->{"SERVER_IP"} . ":" . $conf->{"SERVER_PORT"} . 
+       " with " . $conf->{"QUEUE_SIZE"} . " connection queue limit");
 
   if ($conf->{"USE_SSL"}) {
     &$logging("SSL will be used on all connections");
@@ -314,11 +314,11 @@ sub __report {
 
 sub __start_server_socket {
   my ($conf) = @_;
-  return new IO::Socket::INET(LocalAddr => $conf->{"SERVER_IP"},
-  			      LocalPort => $conf->{"SERVER_PORT"},
-			      Proto     => 'tcp',
-			      Reuse     => 1,
-			      Listen    => $conf->{"QUEUE_SIZE"}) || return undef;
+  return new IO::Socket::INET( LocalAddr => $conf->{"SERVER_IP"},
+                               LocalPort => $conf->{"SERVER_PORT"},
+                               Proto     => 'tcp',
+                               Reuse     => 1,
+                               Listen    => $conf->{"QUEUE_SIZE"}) || return undef;
 }
 
 # --------------------------------------------------------------------------------------
@@ -327,11 +327,11 @@ sub __start_server_socket {
 
 sub __start_server_ssl {
   my ($conf) = @_;
-  return new IO::Socket::INET(LocalAddr => $conf->{"SERVER_IP"},
-  			      LocalPort => $conf->{"SERVER_PORT"},
-			      Proto     => 'tcp',
-			      Reuse     => 1,
-			      Listen    => $conf->{"QUEUE_SIZE"}) || return undef;
+  return new IO::Socket::INET( LocalAddr => $conf->{"SERVER_IP"},
+                               LocalPort => $conf->{"SERVER_PORT"},
+                               Proto     => 'tcp',
+                               Reuse     => 1,
+                               Listen    => $conf->{"QUEUE_SIZE"}) || return undef;
 }
 
 # --------------------------------------------------------------------------------------
@@ -371,11 +371,11 @@ sub __multiplex_connections {
           $no = $ns->fileno;
           $buffers{$no}{InBuffer} = '';
           $buffers{$no}{OutBuffer} = '';
-	  $buffers{$no}{AutoClose} = 0;
-	  $buffers{$no}{CloseAfter} = 0;
+          $buffers{$no}{AutoClose} = 0;
+          $buffers{$no}{CloseAfter} = 0;
           $buffers{$no}{CLen} = -1;
           $buffers{$no}{CPos} = 0;
-	  $buffers{$no}{Socket} = $ns;
+          $buffers{$no}{Socket} = $ns;
           &$logging("[$id] NEW connection [$no] from " . $ns->peerhost . ":" . $ns->peerport);
         } 
       } else {
@@ -643,18 +643,18 @@ sub __socket_read {
       my $logging = $conf->{'DEBLOG_METHOD'};
       &$logging("[$id] Socket read error was [$errno] ($errstr)");
     }
-    return -1; 								# socket read got an error
+    return -1;                # socket read got an error
   }
 
   if ($read == 0) {
-    return -1; 								# socket closed
+    return -1;                # socket closed
   }
 
   $buf->{InBuffer} .= $tbuf;
 
   if ($buf->{CLen} < 0) { 
     my $pos;
-    if (($pos = index($buf->{InBuffer}, "$CRLF$CRLF")) > 0) { 		# we have full headers
+    if (($pos = index($buf->{InBuffer}, "$CRLF$CRLF")) > 0) {     # we have full headers
       if ($buf->{InBuffer} =~ /Content-Length:\s*(\d+)/io) {
         $buf->{CLen} = $1;
       } else {
@@ -662,12 +662,12 @@ sub __socket_read {
       }
       $buf->{CPos} = $pos;
     } else {
-      return 0;								# not a complete packet yet
+      return 0;               # not a complete packet yet
     }
   } 
 
   if ($buf->{CLen} >= 0) {
-    my $expected = $buf->{CPos} + $buf->{CLen} + 4;			# we have up to a point. Read the remaining
+    my $expected = $buf->{CPos} + $buf->{CLen} + 4;     # we have up to a point. Read the remaining
     if (length($buf->{InBuffer}) < $expected) {
       return 0;
     }
@@ -675,7 +675,7 @@ sub __socket_read {
     return 0;
   }
 
-  return 1;								# we have a complete packet
+  return 1;               # we have a complete packet
 }
 
 # --------------------------------------------------------------------------------------
@@ -1107,7 +1107,7 @@ sub __do_embeded {
         $headers{'Date'} = time2str($self->{START_TIME});
         $headers{'Last-Modified'} = time2str($self->{START_TIME});
 
-	my $expiration = undef;
+        my $expiration = undef;
         if (exists $conf->{'EXPIRATIONS'}->{'ALL'}) {
           $expiration = $conf->{'EXPIRATIONS'}->{'ALL'};
         }
@@ -1154,9 +1154,9 @@ sub __do_embeded {
     } else {
       for my $k (keys %INC) {
         if ($k eq 'CGI.pm') {
-	  $self->{HAS_CGI_PM} = 1;
+    $self->{HAS_CGI_PM} = 1;
           eval('CGI::initialize_globals();');
-	  last;
+    last;
         }
       }
     }
@@ -1268,7 +1268,7 @@ sub __do_perl {
     } else {
       for my $k (keys %INC) {
         if ($k eq 'CGI.pm') {
-	  $self->{HAS_CGI_PM} = 1;
+    $self->{HAS_CGI_PM} = 1;
           eval('CGI::initialize_globals();');
         }
       }
@@ -2009,7 +2009,6 @@ sub __get_gid {
 #
 
 sub __no_logging {
-  my ($self, $str) = @_;
 }
 
 # --------------------------------------------------------------------------------------
@@ -2037,49 +2036,49 @@ EmbedIT::WebIT - A small yet very effective embeded web server for any perl appl
 
   use EmbedIT::WebIT;
 
-  $server = new EmbedIT::WebIT(	SERVER_NAME 	=> 'www.my.org',
-			        SERVER_IP   	=> '127.0.0.1',
-			        SERVER_PORT	=> 8080,
-			        SOFTWARE	=> 'MyApp web server',
-			        QUEUE_SIZE	=> 100,
-			        RUN_AS_USER	=> nobody,
-			        RUN_AS_GROUP	=> nogroup,
-			        WAIT_RESPONSE	=> 1,
-			        IMMED_CLOSE	=> 1,
-			        EMBED_PERL	=> 1,
-			        FORK_CONN	=> 0,
-			        SETUP_ENV	=> 1,
-			        SERVER_ADMIN	=> 'info@my.org',
-			        SERVERS		=> 3,
-			        WORKERS		=> 1,
-			        DOCUMENT_ROOT   => '/opt/my/web',
-			        DOCUMENTS	=> {
-			                             '/index.html'    => 'WPages::index',
-					             '/error.html'    => 'WPages::error',
-			                             '/style.css'     => 'WPages::style',
-				                     '/print.css'     => 'WPages::print',
-				                     '/404.html'      => 'WPages::error404',
-				                     '*'              => 'WPages::pageHandle',
-					           },
-                                ERROR_PAGES	=> { 
-			                             '404' => '/404.html',   	# embeded subroutine error
-                                                     'ALL' => '/error.html', 	# simple html file error
-                                                   },
-			        EXPIRATIONS	=> { 
-			                             'image/jpg' => 86400,
-                                                     'ALL' => 3600, 
-                                                   },
-			        PROC_PREFIX	=> 'my:',
-			        CHILD_START	=> 'WControl::start_db',
-			        CHILD_END	=> 'WControl::stop_db',
-			        LOG_METHOD	=> 'WControl::logInfo',
-			        DEBLOG_METHOD	=> 'WControl::logDebug',
-			        LOG_HEADERS	=> 0,
-			        LOG_PACKETS	=> 0,
-			        CGI_PATH	=> '/cgi',
-			        ENV_KEEP	=> [ 'PERL5LIB', 'LD_LIBRARY_PATH' ],
-			        NO_LOGGING	=> 0,
-		           );
+  $server = new EmbedIT::WebIT( SERVER_NAME   => 'www.my.org',
+                                SERVER_IP     => '127.0.0.1',
+                                SERVER_PORT   => 8080,
+                                SOFTWARE      => 'MyApp web server',
+                                QUEUE_SIZE    => 100,
+                                RUN_AS_USER   => nobody,
+                                RUN_AS_GROUP  => nogroup,
+                                WAIT_RESPONSE => 1,
+                                IMMED_CLOSE   => 1,
+                                EMBED_PERL    => 1,
+                                FORK_CONN     => 0,
+                                SETUP_ENV     => 1,
+                                SERVER_ADMIN  => 'info@my.org',
+                                SERVERS       => 3,
+                                WORKERS       => 1,
+                                DOCUMENT_ROOT => '/opt/my/web',
+                                DOCUMENTS     => {
+                                                   '/index.html'    => 'WPages::index',
+                                                   '/error.html'    => 'WPages::error',
+                                                   '/style.css'     => 'WPages::style',
+                                                   '/print.css'     => 'WPages::print',
+                                                   '/404.html'      => 'WPages::error404',
+                                                   '*'              => 'WPages::pageHandle',
+                                                 },
+                                ERROR_PAGES   => { 
+                                                   '404' => '/404.html',    # embeded subroutine error
+                                                   'ALL' => '/error.html',  # simple html file error
+                                                 },
+                                EXPIRATIONS   => { 
+                                                   'image/jpg' => 86400,
+                                                   'ALL' => 3600, 
+                                                 },
+                                PROC_PREFIX   => 'my:',
+                                CHILD_START   => 'WControl::start_db',
+                                CHILD_END     => 'WControl::stop_db',
+                                LOG_METHOD    => 'WControl::logInfo',
+                                DEBLOG_METHOD => 'WControl::logDebug',
+                                LOG_HEADERS   => 0,
+                                LOG_PACKETS   => 0,
+                                CGI_PATH      => '/cgi',
+                                ENV_KEEP      => [ 'PERL5LIB', 'LD_LIBRARY_PATH' ],
+                                NO_LOGGING    => 0,
+                              );
 
   $server->execute();
 
@@ -2334,6 +2333,10 @@ Log input and output packet headers as those come and go to and from the server 
 Log input and output packets as those come and go to anf from the server. By turning on packet logging you will
 implicity get header logging. (default is 0)
 
+=item NO_LOGGING
+
+When set to 1-true the server will avoid all possible logging speeding up processing to the max. (default is 0)
+
 =item CGI_PATH
 
 A colon or semicolon separated list of paths under the DOCUMENT_ROOT where
@@ -2456,7 +2459,7 @@ Create you WSDL
       </xs:schema>
     </wsdl:types>
   
-    <wsdl:message name="MsgIn"> <wsdl:part element="tns:InputFLag" name="MessageIn"/> </wsdl:message>
+    <wsdl:message name="MsgIn"> <wsdl:part element="tns:InputFlag" name="MessageIn"/> </wsdl:message>
     <wsdl:message name="MsgOut"> <wsdl:part element="tns:OutputFlag" name="MessageOut"/> </wsdl:message>
   
     <wsdl:portType name="TestPort">
@@ -2477,6 +2480,13 @@ Create you WSDL
       </wsdl:operation>
   
     </wsdl:binding>
+
+    <wsdl:service name="Test">
+      <wsdl:port name="Test" binding="tns:TestBind">
+        <soap:address location="http://127.0.0.1:8089/WS/Test" />
+      </wsdl:port>
+
+    </wsdl:service>
   </wsdl:definitions>
 
 and compile it with wsdl2perl
@@ -2499,7 +2509,7 @@ Then create your handling object (use SOAP::WSDL documentation to see what you n
   
     $idata{Flag} = $body->get_Flag() . "";
   
-    return Elements::MsgOut->new(\%idata);
+    return MyElements::OutputFlag->new(\%idata);
   }
 
 and finally create your embeded page that will handle the HTTP request.
@@ -2511,7 +2521,7 @@ and finally create your embeded page that will handle the HTTP request.
   
         my $t = WebService->new();    # create a WebService handling object
         my $server = MyServer::Test::Test->new({ dispatch_to     => 'WebService',
-			                         transport_class => 'SOAP::WSDL::Server::CGI' });
+                                                 transport_class => 'SOAP::WSDL::Server::CGI' });
         $server->handle();
      };
      if ($@) { print "just do something ...the call has failed\n"; }
@@ -2522,13 +2532,13 @@ for a page like so:
 
   $server = new EmbedIT::WebIT( SERVER_NAME => 'name.org',
                                 ...
-		                FORK_CONN   => 1,
-		                ...
-		                DOCUMENTS   => {
-		                                 'WS/Test' => 'main::WebService',
-		                               },
-	                        ...
-		              );
+                                FORK_CONN   => 1,
+                                ...
+                                DOCUMENTS   => {
+                                                 'WS/Test' => 'main::WebService',
+                                               },
+                                ...
+                              );
 
 and thats it. You have exposed web services working with WebIT as an embeded web server.
 

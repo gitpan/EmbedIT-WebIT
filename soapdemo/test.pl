@@ -31,7 +31,7 @@ sub WebServiceTest {
   
       my $t = WebService->new();    # create a WebService handling object
       my $server = MyServer::Test::Test->new({ dispatch_to     => 'WebService',
-                                             transport_class => 'SOAP::WSDL::Server::CGI' });
+                                               transport_class => 'SOAP::WSDL::Server::CGI' });
       $server->handle();
     };
     if ($@) { print STDERR "just do something ...the call has failed\n$@\n"; }
@@ -41,7 +41,7 @@ sub WebServiceTest {
 # ----------------------------------------------------------------------------------------------------------
 
 my $server = new EmbedIT::WebIT(  SERVER_NAME     => 'localhost',
-                                  SERVER_IP       => '192.168.201.225',
+                                  SERVER_IP       => '127.0.0.1',
                                   SERVER_PORT     => 8089,
                                   SOFTWARE        => 'MyApp',
                                   QUEUE_SIZE      => 100,
@@ -54,7 +54,7 @@ my $server = new EmbedIT::WebIT(  SERVER_NAME     => 'localhost',
                                   SERVERS         => 1,
                                   WORKERS         => 0,
                                   DOCUMENTS       => {
-		                                                   '/WS/Test' => 'main::WebServiceTest',
+                                                       '/WS/Test' => 'main::WebServiceTest',
                                                      },
                                   ERROR_PAGES     => { 
                                                        'ALL' => '/error.html', 
